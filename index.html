@@ -1,184 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>StockPOS - Beta</title>
+<title>TUnegocio: inventario, ventas y compras de tu negocio en un solo lugar</title>
+<meta name="description" content="Sistema en la nube para tiendas y comercios: inventario, ventas y compras. Elige tu plan y prueba 7 días gratis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
+:root{--bg:#EDF2EF;--surface:#FFFFFF;--ink:#1B1F1D;--muted:#55605B;--green:#0F3D33;--on-green:#F3F7F4;--gold:#F2B632;--on-gold:#1B1F1D;--brick:#B83F25;--line:#C9D4CE;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0E1512;--surface:#16211C;--ink:#E8EFEA;--muted:#9DAAA3;--green:#0B2A23;--on-green:#E8EFEA;--brick:#E8775C;--line:#2B3A33;color-scheme:dark}}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:'Segoe UI',Arial,sans-serif;color:#0f172a;line-height:1.6;background:#fff}
-section{padding:64px 20px;max-width:1000px;margin:auto}
-h1{font-size:clamp(2.2rem,6vw,3.6rem);margin:0 0 16px;line-height:1.1}
-h2{font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 14px;text-align:center}
-section>p{max-width:720px;margin:0 auto 12px;text-align:center;color:#334155;font-size:1.05rem}
-.hero{background:linear-gradient(135deg,#1e3a8a,#2563eb 60%,#7c3aed);color:#fff;text-align:center;max-width:none;padding:80px 20px 96px}
-.hero>p{max-width:640px;margin:0 auto 28px;font-size:1.15rem;color:#fff}
-.hero h1 span{color:#fbbf24}
-.badge{display:inline-block;background:rgba(255,255,255,.18);padding:6px 14px;border-radius:999px;font-size:.85rem;margin-bottom:20px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-block;background:#fbbf24;color:#111;padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:bold;border:0;font-size:1rem;cursor:pointer;transition:transform .2s}
-.btn:hover{transform:translateY(-2px)}
-.btn.sec{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7)}
-.mock{max-width:560px;margin:48px auto 0;background:#fff;color:#0f172a;border-radius:16px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.35);text-align:left}
-.mock small.t{color:#64748b;display:block;margin-bottom:10px}
-.mock .row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.kpi{background:#eff6ff;border-radius:10px;padding:12px}
-.kpi small{display:block;color:#64748b;font-size:.75rem}
-.kpi b{font-size:1.2rem}
-.alert{margin-top:12px;background:#fef3c7;color:#92400e;border-radius:10px;padding:10px 12px;font-size:.9rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:28px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px;box-shadow:0 4px 14px rgba(15,23,42,.06);transition:transform .2s}
-.card:hover{transform:translateY(-4px)}
-.card .ic{font-size:2rem;display:block;margin-bottom:8px}
-.grid img{width:100%;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 4px 14px rgba(15,23,42,.08)}
-#beta{max-width:none;background:#f1f5f9}
-form{display:grid;gap:14px;max-width:520px;margin:28px auto 0;background:#fff;padding:28px;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.1)}
-label{font-weight:bold;font-size:.9rem}
-input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;font-size:1rem;font-family:inherit}
-input:focus,select:focus,textarea:focus{outline:2px solid #2563eb;border-color:#2563eb}
-form .btn{background:#2563eb;color:#fff;width:100%}
-.err{color:#b91c1c;font-size:.85rem;min-height:1em}
-.msg{padding:12px;border-radius:8px;display:none}
-.ok{background:#dcfce7;color:#166534}
-.fail{background:#fee2e2;color:#991b1b}
-footer{text-align:center;padding:24px;color:#64748b;font-size:.85rem}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 "Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;line-height:1.1;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+section{padding:56px 0}
+h2{font-size:clamp(1.7rem,4vw,2.4rem);font-weight:800;margin-bottom:12px}
+.lead{color:var(--muted);max-width:60ch;margin:0 0 28px}
+.btn{display:inline-block;background:var(--gold);color:var(--on-gold);font:600 1rem "Instrument Sans",sans-serif;padding:14px 22px;border:2px solid var(--ink);border-radius:6px;text-decoration:none;cursor:pointer}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.btn:focus-visible,input:focus-visible,.plan:focus-visible{outline:3px solid var(--brick);outline-offset:2px}
+.announce{background:var(--gold);color:var(--on-gold);text-align:center;font-weight:600;padding:10px 16px;border-bottom:2px solid var(--ink)}
+.hero{background:var(--green);color:var(--on-green);padding:44px 0 64px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800;letter-spacing:-.02em}
+.hero p{font-size:1.15rem;max-width:46ch;margin:18px 0 26px;opacity:.92}
+.brand{font:800 1.1rem "Bricolage Grotesque",sans-serif;margin-bottom:30px}
+.ticket{background:var(--surface);color:var(--ink);border-radius:4px;padding:20px 22px;font:500 .95rem/1.7 ui-monospace,Consolas,monospace;box-shadow:8px 8px 0 var(--gold);transform:rotate(1.5deg)}
+.ticket hr{border:0;border-top:2px dashed var(--line);margin:10px 0}
+.ticket .row{display:flex;justify-content:space-between;gap:12px}
+.ticket .tot{color:var(--brick);font-weight:700}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.benefits h3{font-size:1.2rem;margin-bottom:6px;border-top:4px solid var(--gold);padding-top:12px}
+.benefits p{margin:0;color:var(--muted)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.plan{background:var(--surface);border:2px solid var(--line);border-radius:8px;padding:24px 20px;display:flex;flex-direction:column;cursor:pointer}
+.plan.pro{border-color:var(--ink)}
+.plan.sel{border-color:var(--brick);box-shadow:6px 6px 0 var(--brick)}
+.plan h3{font-size:1.3rem}
+.price{font:800 2.4rem "Bricolage Grotesque",sans-serif;margin:10px 0 0}
+.price small{font:500 .95rem "Instrument Sans",sans-serif}
+.muted{color:var(--muted);font-size:.92rem}
+.plan ul{padding-left:18px;margin:14px 0 18px;flex:1}
+.plan li{margin-bottom:6px}
+.badge{align-self:flex-start;background:var(--ink);color:var(--bg);font-size:.8rem;font-weight:600;padding:2px 10px;border-radius:99px;margin-bottom:8px}
+.plan .btn{text-align:center}
+.formbox{background:var(--surface);border:2px solid var(--ink);border-radius:8px;padding:28px;display:grid;grid-template-columns:.9fr 1.1fr;gap:32px}
+label{display:block;font-weight:600;margin:0 0 4px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:6px;padding:11px 12px;margin-bottom:14px}
+.chosen{padding:10px 12px;border:2px dashed var(--ink);border-radius:6px;margin-bottom:14px;font-weight:600}
+.chosen.empty{color:var(--brick)}
+.note{font-size:.88rem;color:var(--muted);margin:10px 0 0}
+#res{margin-top:14px;padding:14px;border:2px dashed var(--ink);border-radius:6px}
+footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+@media (max-width:860px){.hero .wrap,.formbox{grid-template-columns:1fr}.benefits,.plans{grid-template-columns:1fr}.ticket{transform:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
 </style>
 </head>
 <body>
-<section class="hero">
-<span class="badge">Beta gratuita · Hecho para Bolivia</span>
-<h1>TU<span>negocio</span>,<br>bajo control</h1>
-<p>Sabe qué tiene, dónde está y cuánto gana tu negocio, en un solo lugar.</p>
-<div class="btns">
-<a class="btn" href="#beta">Quiero entrar a la beta</a>
-<a class="btn sec" href="#prototipo">Ver cómo se verá</a>
-</div>
-<div class="mock">
-<small class="t">Vista de ejemplo</small>
-<div class="row">
-<div class="kpi"><small>Ventas de hoy</small><b>Bs 1.250</b></div>
-<div class="kpi"><small>Stock total</small><b>842 uds</b></div>
-<div class="kpi"><small>Ganancia</small><b>Bs 380</b></div>
-</div>
-<div class="alert">⚠️ Stock bajo: Polera negra M (quedan 3)</div>
-</div>
+<div class="announce">7 días de prueba gratis al elegir cualquier plan</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="brand">TUnegocio</div>
+      <h1>Sabe qué tienes, qué vendiste y qué te falta comprar.</h1>
+      <p>Un sistema en la nube para tiendas y comercios: controla tu inventario, registra tus ventas y ordena tus compras a proveedores. Cada negocio trabaja con su propia base de datos, separada de las demás.</p>
+      <a class="btn" href="#planes">Ver planes</a>
+    </div>
+    <div class="ticket" aria-label="Ejemplo de una venta registrada">
+      <div class="row"><span>Venta #0042</span><span>Cliente: Juan Pérez</span></div>
+      <hr>
+      <div class="row"><span>1 × Cocina 4 hornallas</span><span>Bs 1.000</span></div>
+      <hr>
+      <div class="row"><span>Pago en efectivo</span><span>Bs 1.000</span></div>
+      <div class="row"><span>Total</span><span class="tot">Bs 1.000</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<section>
+  <div class="wrap">
+    <h2>Qué problema resuelve</h2>
+    <p class="lead">Llevar el negocio en cuadernos o en hojas sueltas hace perder ventas y dinero. TUnegocio junta todo en un solo lugar.</p>
+    <div class="benefits">
+      <div><h3>Inventario siempre al día</h3><p>Productos, categorías, depósitos y stock en un solo lugar, con entradas y ajustes de inventario.</p></div>
+      <div><h3>Ventas y clientes ordenados</h3><p>Registra cada venta con su cliente y sus pagos, y consulta tu historial cuando lo necesites.</p></div>
+      <div><h3>Compras sin sorpresas</h3><p>Anota tus proveedores y tus órdenes de compra para reponer a tiempo.</p></div>
+    </div>
+  </div>
 </section>
 
-<section>
-<section>
-<h2>¿Te suena familiar?</h2>
-<p>Muchos negocios no saben cuánto stock tienen, dónde está ni cuánto ganan realmente.</p>
-<div class="grid">
-<div class="card"><span class="ic">📒</span><b>Cuadernos y Excel</b><br>Información dispersa y desactualizada.</div>
-<div class="card"><span class="ic">📦</span><b>Stock incierto</b><br>No sabes cuánto hay en cada sucursal o depósito.</div>
-<div class="card"><span class="ic">💸</span><b>Ganancias poco claras</b><br>Vendes, pero no sabes cuánto ganas realmente.</div>
-</div>
+<section id="planes">
+  <div class="wrap">
+    <h2>Elige tu plan</h2>
+    <p class="lead">Precios en bolivianos. Todos los planes duran 30 días e incluyen 7 días de prueba gratis para empezar.</p>
+    <div class="plans">
+      <article class="plan" tabindex="0" data-plan="Básico (Bs 50, 30 días)">
+        <h3>Básico</h3>
+        <p class="price">Bs 50 <small>/ mes</small></p>
+        <p class="muted">30 días</p>
+        <ul><li>Inventario: productos, categorías, depósitos y stock</li></ul>
+        <button class="btn" type="button">Elegir Básico</button>
+      </article>
+      <article class="plan pro" tabindex="0" data-plan="Profesional (Bs 100, 30 días)">
+        <span class="badge">Recomendado</span>
+        <h3>Profesional</h3>
+        <p class="price">Bs 100 <small>/ mes</small></p>
+        <p class="muted">30 días</p>
+        <ul><li>Todo lo del Básico</li><li>Ventas y clientes</li></ul>
+        <button class="btn" type="button">Elegir Profesional</button>
+      </article>
+      <article class="plan" tabindex="0" data-plan="Empresarial (Bs 130, 30 días)">
+        <h3>Empresarial</h3>
+        <p class="price">Bs 130 <small>/ mes</small></p>
+        <p class="muted">30 días</p>
+        <ul><li>Todas las funciones</li><li>Compras y proveedores</li><li>Archivos</li></ul>
+        <button class="btn" type="button">Elegir Empresarial</button>
+      </article>
+    </div>
+  </div>
 </section>
 
-<section>
-<h2>Nuestra propuesta</h2>
-<p>Un punto de venta con control de inventario en la nube: registra ventas, controla el stock por sucursal y depósito, recibe alertas de stock bajo y consulta reportes desde cualquier lugar.</p>
+<section id="inscripcion">
+  <div class="wrap">
+    <div class="formbox">
+      <div>
+        <h2>Empieza tu prueba de 7 días</h2>
+        <p class="lead" style="margin-bottom:0">Elige un plan arriba, déjanos tus datos y te escribimos por WhatsApp con tu identificador de negocio y los pasos para probar el sistema.</p>
+      </div>
+      <form id="f" novalidate>
+        <div class="chosen empty" id="chosen">Primero elige un plan en la sección de planes.</div>
+        <label for="n">Tu nombre</label>
+        <input id="n" autocomplete="name" required>
+        <label for="b">Nombre o rubro de tu negocio</label>
+        <input id="b" required>
+        <button class="btn" type="submit">Solicitar mi prueba de 7 días</button>
+        <p class="note" id="msg" role="status"></p>
+        <div id="res" hidden>
+          <p style="margin:0 0 8px"><b>Tu mensaje está listo.</b> Si WhatsApp no se abrió, cópialo y envíalo al +591 71892552.</p>
+          <textarea id="txt" rows="5" readonly></textarea>
+          <button class="btn" type="button" id="cp">Copiar mensaje</button>
+          <a class="btn" id="wa" target="_blank" rel="noopener" href="#" style="margin-left:8px;background:var(--surface)">Abrir WhatsApp</a>
+        </div>
+      </form>
+    </div>
+  </div>
 </section>
+</main>
 
-<section>
-<h2>Para quién es</h2>
-<p>Tiendas y emprendimientos de Bolivia que venden productos físicos y quieren dejar los registros manuales.</p>
-</section>
 
-<section>
-<section>
-<h2>Todo tu negocio, claro y simple</h2>
-<div class="grid">
-<div class="card"><span class="ic">⚡</span><b>Simplicidad</b><br>Registra una venta en pocos pasos.</div>
-<div class="card"><span class="ic">🕒</span><b>Ahorro de tiempo</b><br>El stock se actualiza solo con cada venta.</div>
-<div class="card"><span class="ic">📊</span><b>Claridad</b><br>Ventas y ganancias en reportes claros.</div>
-<div class="card"><span class="ic">😌</span><b>Tranquilidad</b><br>Alertas antes de quedarte sin producto.</div>
-<div class="card"><span class="ic">📈</span><b>Crecimiento</b><br>Varias sucursales y depósitos.</div>
-</div>
-</section>
-
-<section>
-<h2>Así se verá el sistema</h2>
-<div class="grid">
-<img src="img/wireframe1.png" alt="Inicio de sesión">
-<img src="img/wireframe2.png" alt="Dashboard">
-<img src="img/wireframe3.png" alt="Punto de venta">
-<img src="img/wireframe4.png" alt="Inventario">
-<img src="img/wireframe5.png" alt="Reportes">
-</div>
-<section id="prototipo">
-
-<section id="beta">
-<h2>Inscríbete a la beta</h2>
-<form id="f" novalidate>
-<div><label for="nombre">Nombre</label><input id="nombre" type="text"><div class="err" id="e-nombre"></div></div>
-<div><label for="correo">Correo</label><input id="correo" type="email"><div class="err" id="e-correo"></div></div>
-<div><label for="perfil">Tipo de negocio o empresa</label><input id="perfil" type="text"><div class="err" id="e-perfil"></div></div>
-<div><label for="necesidad">¿Cuál es tu principal necesidad?</label><textarea id="necesidad" rows="3"></textarea><div class="err" id="e-necesidad"></div></div>
-<div><label for="interes">¿Qué te interesa?</label>
-<select id="interes">
-<option value="">Selecciona una opción</option>
-<option>Plan Básico</option>
-<option>Plan Profesional</option>
-<option>Plan Empresarial</option>
-<option>Solo probar la beta</option>
-</select><div class="err" id="e-interes"></div></div>
-<button class="btn" type="submit" id="btn">Inscribirme</button>
-<div class="msg ok" id="ok">Gracias, te inscribiste a la beta. Te contactaremos pronto.</div>
-<div class="msg fail" id="fail">No pudimos registrar tu inscripción. Intenta nuevamente.</div>
-</form>
-</section>
-
-<footer>StockPOS - Proyecto académico de validación</footer>
 
 <script>
-const SUPABASE_URL='https://lmdavotpueuulsnuhcqq.supabase.co';
-const SUPABASE_KEY='sb_publishable_wsV_cEstFjEplpWsBuYkVA_cWMdVECo';
-const f=document.getElementById('f');
-const campos=['nombre','correo','perfil','necesidad','interes'];
-const reglas={
-nombre:v=>v.trim().length>=3?'':'Ingresa tu nombre (mínimo 3 letras).',
-correo:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim())?'':'Ingresa un correo válido.',
-perfil:v=>v.trim().length>=2?'':'Indica tu tipo de negocio o empresa.',
-necesidad:v=>v.trim().length>=10?'':'Describe tu necesidad (mínimo 10 caracteres).',
-interes:v=>v?'':'Selecciona una opción.'
-};
-f.addEventListener('submit',async e=>{
-e.preventDefault();
-document.getElementById('ok').style.display='none';
-document.getElementById('fail').style.display='none';
-let valido=true;
-campos.forEach(c=>{
-const m=reglas[c](document.getElementById(c).value);
-document.getElementById('e-'+c).textContent=m;
-if(m)valido=false;
-});
-if(!valido)return;
-const btn=document.getElementById('btn');
-btn.disabled=true;
-btn.textContent='Enviando...';
-try{
-const r=await fetch(SUPABASE_URL+'/rest/v1/inscritos_beta',{
-method:'POST',
-headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Prefer':'return=minimal'},
-body:JSON.stringify({
-nombre:document.getElementById('nombre').value.trim(),
-correo:document.getElementById('correo').value.trim(),
-perfil_o_empresa:document.getElementById('perfil').value.trim(),
-necesidad:document.getElementById('necesidad').value.trim(),
-interes:document.getElementById('interes').value
-})
-});
-if(!r.ok)throw new Error();
-f.reset();
-document.getElementById('ok').style.display='block';
-}catch(err){
-document.getElementById('fail').style.display='block';
-}
-btn.disabled=false;
-btn.textContent='Inscribirme';
-});
+(function(){
+  var plan="";
+  var cards=document.querySelectorAll(".plan");
+  var chosen=document.getElementById("chosen");
+  function elegir(c){
+    plan=c.getAttribute("data-plan");
+    cards.forEach(function(x){x.classList.toggle("sel",x===c);});
+    chosen.textContent="Plan elegido: "+plan;
+    chosen.classList.remove("empty");
+    document.getElementById("inscripcion").scrollIntoView({behavior:"smooth"});
+  }
+  cards.forEach(function(c){
+    c.addEventListener("click",function(){elegir(c);});
+    c.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();elegir(c);}});
+  });
+  document.getElementById("cp").addEventListener("click",function(){
+    var x=document.getElementById("txt");x.select();
+    try{navigator.clipboard.writeText(x.value).catch(function(){document.execCommand("copy");});}catch(e){document.execCommand("copy");}
+    this.textContent="Copiado";
+  });
+  document.getElementById("f").addEventListener("submit",function(e){
+    e.preventDefault();
+    var n=document.getElementById("n").value.trim();
+    var b=document.getElementById("b").value.trim();
+    var m=document.getElementById("msg");
+    if(!plan){m.textContent="Primero elige un plan en la sección de planes.";return;}
+    if(!n||!b){m.textContent="Completa tu nombre y el nombre de tu negocio para continuar.";return;}
+    var t="Hola, quiero probar TUnegocio.\nNombre: "+n+"\nNegocio: "+b+"\nPlan elegido: "+plan+"\nQuiero empezar con los 7 días de prueba gratis. Envíenme mi identificador de negocio, por favor.";
+    var url="https://wa.me/59171892552?text="+encodeURIComponent(t);
+    document.getElementById("txt").value=t;
+    document.getElementById("wa").href=url;
+    document.getElementById("res").hidden=false;
+    m.textContent="";
+    window.open(url,"_blank","noopener");
+  });
+})();
 </script>
 </body>
 </html>
