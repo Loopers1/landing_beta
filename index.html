@@ -162,7 +162,7 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px sol
   </div>
 </section>
 
-<section id="gestion">
+<section id="gestion" hidden>
   <div class="wrap">
     <div class="panel">
       <h2>Consulta y atiende una inscripción</h2>
@@ -257,6 +257,10 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px sol
     });
   });
 
+    var gestion=document.getElementById("gestion");
+  function revisar(){gestion.hidden=location.hash!=="#atencion";}
+  window.addEventListener("hashchange",revisar);
+  revisar();
   var antes=document.getElementById("antes");
   var despues=document.getElementById("despues");
   var gmsg=document.getElementById("gmsg");
