@@ -54,8 +54,15 @@ input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);bor
 .chosen.empty{color:var(--brick)}
 .note{font-size:.88rem;color:var(--muted);margin:10px 0 0}
 #res{margin-top:14px;padding:14px;border:2px dashed var(--ink);border-radius:6px}
+.panel{background:var(--surface);border:2px solid var(--ink);border-radius:8px;padding:28px}
+.panel .acciones{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.estados{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.caja{border:2px dashed var(--ink);border-radius:6px;padding:14px;min-height:120px}
+.caja h3{font-size:1.1rem;margin-bottom:8px}
+.caja pre{margin:0;white-space:pre-wrap;word-break:break-word;font:500 .9rem/1.5 ui-monospace,Consolas,monospace}
+.estado{display:inline-block;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--ink);color:var(--bg)}
 footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
-@media (max-width:860px){.hero .wrap,.formbox{grid-template-columns:1fr}.benefits,.plans{grid-template-columns:1fr}.ticket{transform:none}}
+@media (max-width:860px){.hero .wrap,.formbox,.estados{grid-template-columns:1fr}.benefits,.plans{grid-template-columns:1fr}.ticket{transform:none}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn:hover{transform:none}}
 </style>
 </head>
@@ -99,14 +106,14 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px sol
     <h2>Elige tu plan</h2>
     <p class="lead">Precios en bolivianos. Todos los planes duran 30 días e incluyen 7 días de prueba gratis para empezar.</p>
     <div class="plans">
-      <article class="plan" tabindex="0" data-plan="Básico (Bs 50, 30 días)">
+      <article class="plan" tabindex="0" data-plan="Básico (Bs 50, 30 días)" data-id="1">
         <h3>Básico</h3>
         <p class="price">Bs 50 <small>/ mes</small></p>
         <p class="muted">30 días</p>
         <ul><li>Inventario: productos, categorías, depósitos y stock</li></ul>
         <button class="btn" type="button">Elegir Básico</button>
       </article>
-      <article class="plan pro" tabindex="0" data-plan="Profesional (Bs 100, 30 días)">
+      <article class="plan pro" tabindex="0" data-plan="Profesional (Bs 100, 30 días)" data-id="3">
         <span class="badge">Recomendado</span>
         <h3>Profesional</h3>
         <p class="price">Bs 100 <small>/ mes</small></p>
@@ -114,7 +121,7 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px sol
         <ul><li>Todo lo del Básico</li><li>Ventas y clientes</li></ul>
         <button class="btn" type="button">Elegir Profesional</button>
       </article>
-      <article class="plan" tabindex="0" data-plan="Empresarial (Bs 130, 30 días)">
+      <article class="plan" tabindex="0" data-plan="Empresarial (Bs 130, 30 días)" data-id="4">
         <h3>Empresarial</h3>
         <p class="price">Bs 130 <small>/ mes</small></p>
         <p class="muted">30 días</p>
@@ -138,10 +145,14 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px sol
         <input id="n" autocomplete="name" required>
         <label for="b">Nombre o rubro de tu negocio</label>
         <input id="b" required>
-        <button class="btn" type="submit">Solicitar mi prueba a la beta</button>
+        <label for="c">Correo electrónico</label>
+        <input id="c" type="email" autocomplete="email" required>
+        <label for="t">Teléfono (solo dígitos)</label>
+        <input id="t" type="tel" inputmode="numeric" autocomplete="tel" required>
+        <button class="btn" type="submit" id="enviar">Solicitar mi prueba a la beta</button>
         <p class="note" id="msg" role="status"></p>
         <div id="res" hidden>
-          <p style="margin:0 0 8px"><b>Tu mensaje está listo.</b> Si WhatsApp no se abrió, cópialo y envíalo al +591 71892552.</p>
+          <p style="margin:0 0 8px"><b>Tu inscripción quedó registrada.</b> Si WhatsApp no se abrió, copia el mensaje y envíalo al +591 71892552.</p>
           <textarea id="txt" rows="5" readonly></textarea>
           <button class="btn" type="button" id="cp">Copiar mensaje</button>
           <a class="btn" id="wa" target="_blank" rel="noopener" href="#" style="margin-left:8px;background:var(--surface)">Abrir WhatsApp</a>
@@ -150,17 +161,42 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px sol
     </div>
   </div>
 </section>
+
+<section id="gestion">
+  <div class="wrap">
+    <div class="panel">
+      <h2>Consulta y atiende una inscripción</h2>
+      <p class="lead">Escribe el correo o el teléfono de la inscripción. Puedes consultarla o marcarla como atendida y ver el estado antes y después.</p>
+      <label for="gc">Correo electrónico</label>
+      <input id="gc" type="email">
+      <label for="gt">Teléfono</label>
+      <input id="gt" type="tel" inputmode="numeric">
+      <div class="acciones">
+        <button class="btn" type="button" id="consultar" style="background:var(--surface)">Consultar</button>
+        <button class="btn" type="button" id="atender">Marcar como atendida</button>
+      </div>
+      <p class="note" id="gmsg" role="status"></p>
+      <div class="estados">
+        <div class="caja"><h3>Antes</h3><pre id="antes">Sin datos todavía.</pre></div>
+        <div class="caja"><h3>Después</h3><pre id="despues">Sin datos todavía.</pre></div>
+      </div>
+    </div>
+  </div>
+</section>
 </main>
-
-
 
 <script>
 (function(){
+  var API="https://007qmwcc-5215.brs.devtunnels.ms";
+  var CAB={"X-Tunnel-Skip-AntiPhishing-Page":"true"};
   var plan="";
+  var planId="";
   var cards=document.querySelectorAll(".plan");
   var chosen=document.getElementById("chosen");
+
   function elegir(c){
     plan=c.getAttribute("data-plan");
+    planId=c.getAttribute("data-id");
     cards.forEach(function(x){x.classList.toggle("sel",x===c);});
     chosen.textContent="Plan elegido: "+plan;
     chosen.classList.remove("empty");
@@ -170,25 +206,103 @@ footer{padding:28px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px sol
     c.addEventListener("click",function(){elegir(c);});
     c.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();elegir(c);}});
   });
+
   document.getElementById("cp").addEventListener("click",function(){
     var x=document.getElementById("txt");x.select();
     try{navigator.clipboard.writeText(x.value).catch(function(){document.execCommand("copy");});}catch(e){document.execCommand("copy");}
     this.textContent="Copiado";
   });
+
+  function llamar(metodo,ruta){
+    return fetch(API+ruta,{method:metodo,headers:CAB}).then(function(r){
+      return r.text().then(function(t){
+        var datos=null;
+        try{datos=JSON.parse(t);}catch(e){datos=t;}
+        return {ok:r.ok,status:r.status,datos:datos};
+      });
+    });
+  }
+
+  function textoError(r){
+    if(typeof r.datos==="string"&&r.datos){return r.datos;}
+    return "Error "+r.status;
+  }
+
   document.getElementById("f").addEventListener("submit",function(e){
     e.preventDefault();
     var n=document.getElementById("n").value.trim();
     var b=document.getElementById("b").value.trim();
+    var c=document.getElementById("c").value.trim();
+    var t=document.getElementById("t").value.trim();
     var m=document.getElementById("msg");
     if(!plan){m.textContent="Primero elige un plan en la sección de planes.";return;}
-    if(!n||!b){m.textContent="Completa tu nombre y el nombre de tu negocio para continuar.";return;}
-    var t="Hola, quiero probar TUnegocio.\nNombre: "+n+"\nNegocio: "+b+"\nPlan elegido: "+plan+"\nQuiero empezar con los 7 días de prueba gratis. Envíenme mi identificador de negocio, por favor.";
-    var url="https://wa.me/59171892552?text="+encodeURIComponent(t);
-    document.getElementById("txt").value=t;
-    document.getElementById("wa").href=url;
-    document.getElementById("res").hidden=false;
-    m.textContent="";
-    window.open(url,"_blank","noopener");
+    if(!n||!b||!c||!t){m.textContent="Completa todos los campos para continuar.";return;}
+    var boton=document.getElementById("enviar");
+    boton.disabled=true;
+    m.textContent="Enviando tu inscripción...";
+    var ruta="/api/Subscripciones/inscribir?Nombre="+encodeURIComponent(n)+"&CorreoElectronico="+encodeURIComponent(c)+"&Telefono="+encodeURIComponent(t)+"&PlanId="+encodeURIComponent(planId);
+    llamar("POST",ruta).then(function(r){
+      boton.disabled=false;
+      if(!r.ok){m.textContent=textoError(r);return;}
+      var msj="Hola, quiero probar TUnegocio.\nNombre: "+n+"\nNegocio: "+b+"\nPlan elegido: "+plan+"\nQuiero empezar con los 7 días de prueba gratis. Envíenme mi identificador de negocio, por favor.";
+      var url="https://wa.me/59171892552?text="+encodeURIComponent(msj);
+      document.getElementById("txt").value=msj;
+      document.getElementById("wa").href=url;
+      document.getElementById("res").hidden=false;
+      m.textContent="";
+      window.open(url,"_blank","noopener");
+    }).catch(function(){
+      boton.disabled=false;
+      m.textContent="No se pudo conectar con el servidor. Intenta de nuevo en unos minutos.";
+    });
+  });
+
+  var antes=document.getElementById("antes");
+  var despues=document.getElementById("despues");
+  var gmsg=document.getElementById("gmsg");
+
+  function consulta(){
+    var c=document.getElementById("gc").value.trim();
+    var t=document.getElementById("gt").value.trim();
+    if(!c&&!t){gmsg.textContent="Indica un correo o un teléfono.";return null;}
+    var q=[];
+    if(c){q.push("correo="+encodeURIComponent(c));}
+    if(t){q.push("telefono="+encodeURIComponent(t));}
+    return q.join("&");
+  }
+
+  function mostrar(caja,r){
+    if(!r.ok){caja.textContent=textoError(r);return;}
+    var lista=Array.isArray(r.datos)?r.datos:[r.datos];
+    caja.textContent=lista.map(function(s){
+      return "Inscripción: "+s.subscripcionId+"\nNombre: "+s.nombre+"\nPlan: "+(s.plan||"-")+"\nEstado: "+(s.estado||s.despues);
+    }).join("\n\n");
+  }
+
+  document.getElementById("consultar").addEventListener("click",function(){
+    var q=consulta();if(!q){return;}
+    gmsg.textContent="Consultando...";
+    llamar("GET","/api/Subscripciones/buscar?"+q).then(function(r){
+      gmsg.textContent="";
+      mostrar(antes,r);
+      despues.textContent="Sin datos todavía.";
+    }).catch(function(){gmsg.textContent="No se pudo conectar con el servidor.";});
+  });
+
+  document.getElementById("atender").addEventListener("click",function(){
+    var q=consulta();if(!q){return;}
+    gmsg.textContent="Procesando...";
+    llamar("GET","/api/Subscripciones/buscar?"+q).then(function(r1){
+      mostrar(antes,r1);
+      if(!r1.ok){gmsg.textContent="";despues.textContent="No se modificó nada.";return;}
+      return llamar("PUT","/api/Subscripciones/atender?"+q).then(function(r2){
+        if(!r2.ok){gmsg.textContent="";despues.textContent=textoError(r2);return;}
+        return llamar("GET","/api/Subscripciones/buscar?"+q).then(function(r3){
+          gmsg.textContent="";
+          mostrar(despues,r3);
+        });
+      });
+    }).catch(function(){gmsg.textContent="No se pudo conectar con el servidor.";});
   });
 })();
 </script>
